@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1510797568154.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2941881928",
+    "id" : "C19665A0",
+    "lastKnownWriteTime" : 1510798830,
+    "last_content_update" : 1510798922455,
+    "path" : "~/Documents/GitHub/R-plotly-mini-course/R-plotly-mini-course/01-introduction-to-plotly-real-gdp.Rmd",
+    "project_path" : "01-introduction-to-plotly-real-gdp.Rmd",
+    "properties" : {
+        "cursorPosition" : "112,31",
+        "scrollLine" : "107"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

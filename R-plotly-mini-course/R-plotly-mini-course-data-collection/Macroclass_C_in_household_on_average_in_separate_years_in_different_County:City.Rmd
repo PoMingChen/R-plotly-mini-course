@@ -1,0 +1,148 @@
+---
+title: "家庭收支調查-各縣市別平均每戶消費支出"
+output: html_notebook
+---
+
+```
+一樣想要整理出一個19x22的dataframe
+
+資料集描述: 
+各縣市別平均每戶消費支出(1998年起)
+
+主要欄位說明: 
+Year
+臺灣地區
+新北市
+臺北市
+桃園市
+臺中市
+臺南市
+高雄市
+宜蘭縣
+新竹縣
+苗栗縣
+彰化縣
+南投縣
+雲林縣
+嘉義縣
+屏東縣
+臺東縣
+花蓮縣
+澎湖縣
+基隆市
+新竹市
+嘉義市
+```
+
+```{r}
+rm(list=ls())
+```
+
+1.引入XML資料
+```{r}
+library(XML)
+library(xml2)
+library(dplyr)
+library(magrittr)
+
+
+xml.url <- "http://www.dgbas.gov.tw/public/data/open/localstat/011-各縣市別平均每戶消費支出.xml"
+
+xml.file3 <- xmlTreeParse(xml.url)
+class(xml.file3)
+```
+
+2.認識XML資料
+```{r}
+xmltop3 <- xmlRoot(xml.file3)
+xmltop3
+str(xmltop3)
+xmlSize(xmltop3)
+xmlSize(xmltop3[[1]])
+xmlSize(xmltop3[[2]])
+
+xml_NodeList3 <- xmlChildren(xmltop3)
+class(xml_NodeList3)
+# XMLNodeList 也是List
+class(xml_NodeList3[1])
+class(xml_NodeList3[[1]])
+
+xmlValue(xml_NodeList3[[1]][[1]])
+
+xmlValue(xml_NodeList3[[19]][[22]]) 
+```
+
+3.拆解XML資料，整併成結構化data.frame
+```{r}
+data_matrix3 <- c()
+for(i in 1:19){
+  data_with_in_year <- xmlApply(xml_NodeList3[[i]], xmlValue)
+  data_matrix3 <- rbind(data_matrix3, data_with_in_year %>%
+   unlist)
+}
+data_matrix3
+```
+
+4.整理資料型態，以及更改變數名稱
+```{r}
+data_matrix3 %>% as.data.frame() -> data.final3
+
+for(i in 2:22){
+  data.final3[[i]] <- as.numeric(as.character(data.final3[[i]]))
+}
+
+data.final3 -> data.final.English3
+data.final.English3$Year <- as.character(data.final.English3$Year)
+colnames(data.final.English3)[2:22] <- c(
+"Taiwan", 
+"New_Taipei_City",
+"Taipei_City", 
+"Taoyuan City",
+"Taichung City", 
+"Tainan City", 
+"Kaohsiung City",
+"Yilan County",
+"Hsinchu County",
+"Miaoli County",
+"Changhua County",
+"Nantou County",
+"Yunlin County",
+"Chiayi County",
+"Pingtung County",
+"Taitung County",
+"Hualien County",
+"Penghu County",
+"Keelung City",
+"Hsinchu City",
+"Chiayi City"
+)
+data.final.English3
+
+#共19x22
+```
+
+```
+變數名稱：
+Year
+臺灣地區
+新北市
+臺北市
+桃園市
+臺中市
+臺南市
+高雄市
+宜蘭縣
+新竹縣
+苗栗縣
+彰化縣
+南投縣
+雲林縣
+嘉義縣
+屏東縣
+臺東縣
+花蓮縣
+澎湖縣
+基隆市
+新竹市
+嘉義市
+```
