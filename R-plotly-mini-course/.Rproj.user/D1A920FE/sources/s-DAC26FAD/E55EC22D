@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1510907157756.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "E55EC22D",
+    "lastKnownWriteTime" : 1510943714,
+    "last_content_update" : 1510943714801,
+    "path" : "~/Documents/GitHub/R-plotly-mini-course/R-plotly-mini-course/Introduction-to-R-Environment.Rmd",
+    "project_path" : "Introduction-to-R-Environment.Rmd",
+    "properties" : {
+        "cursorPosition" : "11,4",
+        "scrollLine" : "2",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

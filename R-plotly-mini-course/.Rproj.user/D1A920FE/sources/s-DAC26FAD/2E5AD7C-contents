@@ -1,0 +1,119 @@
+---
+title: "所得收入者十等分位組分界點之可支配所得(1976年起)"
+output: html_notebook
+---
+```
+資料集描述: 
+所得收入者十等分位組分界點之可支配所得(1976年起)
+
+主要欄位說明: 
+Year
+第一及第二等分位之分界點
+第二及第三等分位之分界點
+第三及第四等分位之分界點
+第四及第五等分位之分界點
+第五及第六等分位之分界點
+第六及第七等分位之分界點
+第七及第八等分位之分界點
+第八及第九等分位之分界點
+第九及第十等分位之分界點
+
+是41x10的dataframe
+```
+
+```{r}
+rm(list=ls())
+```
+
+1.引入XML資料
+```{r}
+library(XML)
+library(xml2)
+library(dplyr)
+library(magrittr)
+
+
+xml.url <- "http://www.dgbas.gov.tw/public/data/open/localstat/024-所得收入者十等分位組分界點之可支配所得.xml"
+
+xml.file5 <- xmlTreeParse(xml.url)
+class(xml.file5)
+```
+
+2.認識XML資料
+```{r}
+xmltop5 <- xmlRoot(xml.file5)
+xmltop5
+str(xmltop5)
+xmlSize(xmltop5)
+xmlSize(xmltop5[[1]])
+xmlSize(xmltop5[[2]])
+
+xml_NodeList5 <- xmlChildren(xmltop5)
+class(xml_NodeList5)
+# XMLNodeList 也是List
+class(xml_NodeList5[1])
+class(xml_NodeList5[[1]])
+
+xmlValue(xml_NodeList5[[1]][[10]])
+xmlValue(xml_NodeList5[[41]][[10]])
+```
+
+3.拆解XML資料，整併成結構化data.frame
+```{r}
+data_matrix5 <- c()
+for(i in 1:41){
+  data_with_in_year <- xmlApply(xml_NodeList5[[i]], xmlValue)
+  data_matrix5 <- rbind(data_matrix5, data_with_in_year %>%
+   unlist)
+}
+data_matrix5
+```
+
+4.整理資料型態，以及更改變數名稱
+```{r}
+data_matrix5 %>% as.data.frame() -> data.final5
+for(i in 2:10){
+  data.final5[[i]] <- as.numeric(as.character(data.final5[[i]]))
+}
+
+data.final5 -> data.final.English5
+
+data.final.English5$Year <- as.character(data.final.English5$Year)
+
+#所得收入者 十等分位組 分界點 之 可支配所得 (1976年起)
+#所得收入者 我的英文是用Income earner 簡寫 IE
+#可支配所得 DI
+
+#我有點不知道十等分位要怎麼表達，我是參考四分位數的q1 q2 q3 的方式。
+
+colnames(data.final.English5)[2:10] <- c(
+"DI_of_IE_in_household_Q1Q2_cut_off_point", 
+"DI_of_IE_in_household_Q2Q3_cut_off_point",
+"DI_of_IE_in_household_Q3Q4_cut_off_point",
+"DI_of_IE_in_household_Q4Q5_cut_off_point",
+"DI_of_IE_in_household_Q5Q6_cut_off_point",
+"DI_of_IE_in_household_Q6Q7_cut_off_point",
+"DI_of_IE_in_household_Q7Q8_cut_off_point",
+"DI_of_IE_in_household_Q8Q9_cut_off_point",
+"DI_of_IE_in_household_Q9Q10_cut_off_point"
+)
+#我不確定還要不要有in houshold的字眼。但是感覺，有，比較好。
+
+data.final.English5
+```
+
+
+5.變數對照
+```
+所得收入者 十等分位組 分界點 之 可支配所得
+
+第一及第二等分位之分界點
+第二及第三等分位之分界點
+第三及第四等分位之分界點
+第四及第五等分位之分界點
+第五及第六等分位之分界點
+第六及第七等分位之分界點
+第七及第八等分位之分界點
+第八及第九等分位之分界點
+第九及第十等分位之分界點
+```

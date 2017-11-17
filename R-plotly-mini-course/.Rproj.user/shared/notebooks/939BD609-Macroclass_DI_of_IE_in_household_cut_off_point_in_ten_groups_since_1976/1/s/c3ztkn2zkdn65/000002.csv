@@ -1,0 +1,9 @@
+"0","```r
+data_matrix5 <- c()
+for(i in 1:41){
+  data_with_in_year <- xmlApply(xml_NodeList5[[i]], xmlValue)
+  data_matrix5 <- rbind(data_matrix5, data_with_in_year %>%
+   unlist)
+}
+data_matrix5
+```"

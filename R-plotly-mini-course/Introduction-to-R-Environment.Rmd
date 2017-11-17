@@ -1,0 +1,61 @@
+---
+title: "Introduction-to-R-Environment"
+output: html_document
+output: 
+---
+
+```{r}
+#R Rstudio 關係
+#介紹R物件 （如何存取）
+#何謂R的套件（如何安裝）
+#介紹如何選取變數 data.vis.1.sa$date $符號
+##介紹何謂 %>% 用法
+#install.packages("plotly") 或者 手動去點
+#何謂R的函數（用plotly函數簡單說明
+#何謂R的參數
+
+
+```
+
+```{r}
+#What's API
+#Application Programming Interface, 應用程式界面
+https://www.youtube.com/watch?v=zvKadd9Cflc
+```
+
+
+
+
+
+
+
+#介紹pipe 是什麼？ 他會針對%>%的左邊的物件放到右邊函數執行的第一個參數，讓程式變得易讀好改，已經成為主流用法。
+
+>高科技機器貓 多拉A夢
+>戴上竹蜻蜓去找大雄
+>出發前在存錢筒拿了零錢
+>路途經過小攤買了銅鑼燒
+
+```
+多拉a夢 <- 高科技機器貓()
+完成第一個動作的多拉a夢 <- 找大雄(多拉a夢, 道具 = 竹蜻蜓)
+完成第二個動作的多拉a夢 <- 帶零錢(完成第一個動作的多拉a夢, 道具 = 存錢筒, 時間＝出發前)
+完成第三個動作的多拉a夢 <- 買銅鑼燒(完成第二個動作的多拉a夢, 地點 = 小攤)
+
+多拉a夢 %>%
+  找大雄(道具 = 竹蜻蜓) %>%
+  帶零錢(道具 = 存錢筒, 時間＝出發前) %>%
+  買銅鑼燒(地點 = 小攤)
+```
+
+```
+
+#小嘗試如何在這裡面加上其他參數
+data.vis.1.sa %>% plot_ly(x=~date) %>%
+  add_lines(y=~GDP,
+            name="GDP",
+            color = I("red"), 
+            alpha = 0.2 ) -> p0
+p0
+```
+

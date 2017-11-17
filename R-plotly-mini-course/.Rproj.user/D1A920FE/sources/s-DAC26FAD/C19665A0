@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1510797568154.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3519065115",
+    "id" : "C19665A0",
+    "lastKnownWriteTime" : 1510944156,
+    "last_content_update" : 1510944156243,
+    "path" : "~/Documents/GitHub/R-plotly-mini-course/R-plotly-mini-course/01-introduction-to-R-and-plotly.Rmd",
+    "project_path" : "01-introduction-to-R-and-plotly.Rmd",
+    "properties" : {
+        "cursorPosition" : "285,17",
+        "scrollLine" : "275"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
