@@ -1,0 +1,155 @@
+---
+title: "家庭收支調查-各縣市別平均每戶所得收入總計"
+output: html_notebook
+---
+
+```
+資料集描述: 
+各縣市別平均每戶所得收入總計:
+(1998年起，共19年)
+主要欄位說明: 
+(共22變數, column, the variables)
+Year
+臺灣地區
+新北市
+臺北市
+桃園市
+臺中市
+臺南市
+高雄市
+宜蘭縣
+新竹縣
+苗栗縣
+彰化縣
+南投縣
+雲林縣
+嘉義縣
+屏東縣
+臺東縣
+花蓮縣
+澎湖縣
+基隆市
+新竹市
+嘉義市
+```
+1. 引入XML資料
+```{r}
+library(XML)
+library(xml2)
+library(dplyr)
+library(magrittr)
+
+xml.url <- "http://www.dgbas.gov.tw/public/data/open/localstat/009-各縣市別平均每戶所得收入總計.xml"
+
+xml.file2 <- xmlTreeParse(xml.url)
+class(xml.file2)
+```
+
+2.認識XML資料
+```{r}
+xmltop2 <- xmlRoot(xml.file2)
+xmltop2
+str(xmltop2)
+xmlSize(xmltop2)
+xmlSize(xmltop2[[1]])
+xmlSize(xmltop2[[2]])
+
+xml_NodeList2 <- xmlChildren(xmltop2)
+class(xml_NodeList2)
+# XMLNodeList 也是List
+class(xml_NodeList2[1])
+class(xml_NodeList2[[1]])
+
+xmlValue(xml_NodeList2[[1]][[1]])
+
+xmlValue(xml_NodeList2[[19]][[22]]) 
+```
+
+3.拆解XML資料，並整併成結構化資料
+```{r}
+data_matrix2 <- c()
+for(i in 1:19){
+  data_with_in_year <- xmlApply(xml_NodeList2[[i]], xmlValue)
+  data_matrix2 <- rbind(data_matrix2, data_with_in_year %>%
+   unlist)
+}
+data_matrix2
+```
+
+4.整理資料型態，以及更改變數名稱
+```{r}
+data_matrix2 %>% as.data.frame() -> data.final2
+
+for(i in 2:22){
+  data.final2[[i]] <- as.numeric(as.character(data.final2[[i]]))
+}
+data.final2
+
+data.final2 -> data.final.English2
+data.final.English2
+data.final.English2$Year <- as.character(data.final.English2$Year)
+colnames(data.final.English2)[2:22] <- c(
+"Taiwan", 
+"New_Taipei_City",
+"Taipei_City", 
+"Taoyuan City",
+"Taichung City", 
+"Tainan City", 
+"Kaohsiung City",
+"Yilan County",
+"Hsinchu County",
+"Miaoli County",
+"Changhua County",
+"Nantou County",
+"Yunlin County",
+"Chiayi County",
+"Pingtung County",
+"Taitung County",
+"Hualien County",
+"Penghu County",
+"Keelung City",
+"Hsinchu City",
+"Chiayi City"
+)
+data.final.English2
+
+#共19x22
+```
+
+5.附註:
+```
+變數對照參考：
+Year
+臺灣地區
+新北市
+臺北市
+桃園市
+臺中市
+臺南市
+高雄市
+宜蘭縣
+新竹縣
+苗栗縣
+彰化縣
+南投縣
+雲林縣
+嘉義縣
+屏東縣
+臺東縣
+花蓮縣
+澎湖縣
+基隆市
+新竹市
+嘉義市
+```
+```
+這是我嘗試在資料內插入thousand separator時候所用到的雙重迴圈。但是資料會全部變成character，如果要再轉成numeric是會自動消失。comma style在character numeric轉換似乎是個trade off。但是雙重迴圈之後都用得到所以就先留著。
+
+```
+for(i in 2:22){
+  for(j in 1:19){
+    data.final.English2[[i]][[j]] %>% prettyNum(, big.mark = ",") -> 
+      data.final.English2[[i]][[j]]
+  }
+}
+```

@@ -1,0 +1,19 @@
+"0","library(dplyr)"
+"2","
+Attaching package: ‘dplyr’
+
+"
+"2","The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+"
+"2","The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+"
+"0","data.vis.1.sa %>% plot_ly(x=~date) %>%"
+"0","  add_lines(y=~GDP,"
+"0","            name=""GDP"") -> p0"
+"0","p0"

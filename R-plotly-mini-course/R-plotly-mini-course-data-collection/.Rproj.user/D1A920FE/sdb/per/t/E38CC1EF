@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "---\ntitle: \"XML homework with Labor\"\noutput:\n  html_notebook: default\n  html_document: default\n---\n\n```\n請從開放政府下的歷年勞動力之教育程度，進行資料讀取，並轉成data frame格式。請自行清楚定義你所要讀取的變數名稱，並分別用非XPath及XPath法各做一次。 請將你的程式另存新檔，檔名為 XML-{你的名字}.Rmd，之後送出pull request給老師。\n```\n\n# 使用非XPath\n\n```{r}\nrm(list = ls())\n```\n### 引入XML\n```{r, eval=FALSE}\nlibrary(XML)\nlibrary(xml2)\nlibrary(dplyr)\nlibrary(magrittr)\nxml.url <- \"http://www.dgbas.gov.tw/public/data/open/Cen/Mp04019.xml\"\nxmlfile <- xmlTreeParse(xml.url)\nxmlfile\nclass(xmlfile)\n```\n\n```{r}\nxmltop = xmlRoot(xmlfile)\nhead(xmltop)\nclass(xmltop)\n```\n\n### 熟悉XML結構\n```{r}\n#List of 63\nstr(xmltop)\n#List of 34\nstr(xmltop, max.level = 1)\n#List of 34\nstr(xmltop[[1]], max.level = 1)\nstr(xmltop[[63]], max.level = 1)\n\n```\n\n\n### 熟悉XML結構-1\n```{r}\n#效果和str(xmltop, max.level = 1) 差不多\nxmlSize(xmltop)\n#會切出63個延伸節點的枝幹(以各個年份為第一層節點)\nlevel1.branch <- xmlChildren(xmltop)\nxmlSize(level1.branch[[63]])\n#可以看到底下許多的節點有其值(各個節點內共有34個子節點，每一個子子節點接有一個值。而且很多是加總/男/女依序下去，按照勞動力之教育程度區分）\n\n#由1978年開始統計。自2015年起[[38]]變為統計月資料（應該說有該年平均，以及每月），到2016/12為止，為第63個子結點。\nlevel1.branch[[1]]\nlevel1.branch[[39]]\nclass(level1.branch[63]) #list\nclass(level1.branch[[63]]) #XMLNode\n\n#從XMLDocument >> XMLNode >> XMLNodeList\n#檔案的具體邏輯是：xml_document > xml_nodeset > xml_nodelist(切割後) \nclass(xmlfile) \nclass(xmltop)\nclass(level1.branch)\n```\n\n### 熟悉XML結構-2\n```{r}\n#基本上節點內都是值，沒有屬性。比較用不到xmlAttr\nxmlValue(level1.branch[[1]][[1]])\nxmlValue(level1.branch[[1]][[2]])\n\nxmlSize(level1.branch[[1]][[34]])\n\nxmlAttrs(level1.branch[[1]][[3]])\n\n\n```\n\n### 把XML轉成matrix\n```{r}\n#出來的data.matrix也會是list，所以先存一個空的集合在裡面。再來用for迴圈，產生第一個row vector（橫的，原本確實是直的，只是rbind把它轉成橫的，然後一直往下疊）。那麼當有一個空的c()則迴圈結果就可以有地方存起來，然後隨著i 越來越大，然後就會累積（63列）34行。\n#rbind函數內是先從yearnew %>% unlist開始，最後存進去。\n#不會像for(year in 1:63){xmlApply(level1.branch[[year]], xmlValue) -> bigtry}\n#結果只有產生i = 63的結果。\n#最後再使用rbind就是將這些row vector依序合併。並進行unlist。\n\ndata.matrix<-c()\nfor(i in 1:63){\nyearnew <- xmlApply(level1.branch[[i]], xmlValue)\ndata.matrix <- rbind(data.matrix,\n                     yearnew %>% unlist) \n}\ndata.matrix\n```\n\n### 重新命名變數並轉換資料型態(變成dataframe)\n```{r}\nclass(data.matrix)\nas.data.frame(data.matrix) -> data.frame.not.XPath\nattributes(data.frame.not.XPath)\n\n#我覺得有點疑惑，為什麼人數這麼少？\n#勞動力總人數 ＝ 國中學歷或國小學歷總人數（col5)＋高中職學歷總人數(col14) +大專學歷以上總人數（col23)\ndata.frame.not.XPath[20:34]\n\n\ncolnames(data.frame.not.XPath)[2:34] <- c(\"勞動力總人數\", \"男性\", \"女性\", \"國中學歷或國小學歷總人數\", \"國中學歷或國小學歷男性\", \"國中學歷或國小學歷女性\", \"國小學歷總人數\", \"國小學歷男性\", \"國小學歷女性\", \"國中學歷總人數\", \"國中學歷男性\", \"國中學歷女性\", \"高中職學歷總人數\", \"高中職學歷男性\", \"高中職學歷女性\", \"高中職高中學歷總人數\", \"高中學歷男性\", \"高中學歷女性\", \"高中職高職學歷總人數\", \"高職學歷男性\", \"高職學歷女性\", \"大專學歷以上總人數\", \"大專學歷以上男性\", \"大專學歷以上女性\", \"大專學歷總人數\", \"大專學歷男性\", \"大專學歷女性\", \"大學學歷總人數\", \"大學學歷男性\", \"大學學歷女性\", \"研究所學歷總人數\", \"研究所學歷男性\", \"研究所學歷女性\")\n\n\n#class()判斷類別\n#attributes()回傳資料屬性\n\nclass(data.frame.not.XPath[2])\nattributes(data.frame.not.XPath[2])\n\nfor(i in 2:34){\n  data.frame.not.XPath[[i]] <- as.integer(as.character(data.frame.not.XPath[[i]]))\n}\ndata.frame.not.XPath\n\n\n```\n\n```{r}\n#某些程度來說，我其實不太懂這個XML檔案的意義。因為研究所學歷到民國一百年以前都是NA，只是以我們的統計資料，怎麼可能在這之前全部都是空的。加上被記錄的勞動力總人數也才一萬多人，不曉得是為什麼XD (算了反正這只是練習。)\ncols <- c(1:2, 32:34)\ndata.frame.not.XPath[cols]\n```\n\n\n",
+    "created" : 1508406058304.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1256324256",
+    "id" : "E38CC1EF",
+    "lastKnownWriteTime" : 1508166143,
+    "last_content_update" : 1508166143,
+    "path" : "~/Documents/GitHub/xml data collection for macro-class/XML練習/XML-{陳柏銘}-notXPath.Rmd",
+    "project_path" : null,
+    "properties" : {
+        "chunk_output_type" : "inline"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

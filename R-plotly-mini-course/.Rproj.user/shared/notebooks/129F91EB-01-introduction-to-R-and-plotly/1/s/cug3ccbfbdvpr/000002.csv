@@ -1,0 +1,16 @@
+"0","api_create(p0,filename=""taiwan real gdp SA"",fileopt=""new"")"
+"2","You need a plotly username. See help(signup, package = 'plotly')"
+"2","Couldn't find username"
+"2","You need an api_key. See help(signup, package = 'plotly')"
+"2","Couldn't find api_key"
+"2","You need a plotly username. See help(signup, package = 'plotly')"
+"2","Couldn't find username"
+"2","You need an api_key. See help(signup, package = 'plotly')"
+"2","Couldn't find api_key"
+"2","You need a plotly username. See help(signup, package = 'plotly')"
+"2","Couldn't find username"
+"2","You need an api_key. See help(signup, package = 'plotly')"
+"2","Couldn't find api_key"
+"2","錯誤: Client error: (401) Unauthorized
+	No such user
+"

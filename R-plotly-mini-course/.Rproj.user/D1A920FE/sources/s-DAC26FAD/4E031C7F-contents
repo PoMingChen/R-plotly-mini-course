@@ -1,0 +1,180 @@
+---
+title: "家庭收支調查-戶數五等分位組之平均每戶可支配所得、消費支出及儲蓄"
+output: html_notebook
+---
+```
+本資料集描述，主要包括:
+可支配所得總額、
+消費支出總額、
+儲蓄總額、
+平均每戶可支配所得、
+平均每戶消費支出、
+平均每戶儲蓄、
+可支配所得按戶數五等分位分之各分位組平均每戶可支配所得、
+平均每戶消費支出、
+平均每戶儲蓄等資料
+(1976年起)
+
+主要欄位說明：
+Year、
+可支配所得-億元、
+平均每戶可支配所得、
+可支配所得按戶數五等分位組-最低所得組、
+可支配所得按戶數五等分位組-次低所得組、
+可支配所得按戶數五等分位組-中間所得組、
+可支配所得按戶數五等分位組-次高所得組、
+可支配所得按戶數五等分位組-最高所得組、
+消費支出-億元、
+平均每戶消費支出、
+可支配所得按戶數五等分位組之平均每戶消費支出-最低所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-次低所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-中間所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-次高所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-最高所得組、
+儲蓄-億元、
+平均每戶儲蓄、
+可支配所得按戶數五等分位組之平均每戶儲蓄-最低所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-次低所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-中間所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-次高所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-最高所得組
+```
+
+1.引入XML資料
+```{r, include=FALSE}
+library(XML)
+library(xml2)
+library(dplyr)
+library(magrittr)
+xml.url <- "http://www.dgbas.gov.tw/public/data/open/localstat/002-戶數五等分位組之平均每戶可支配所得、消費支出及儲蓄.xml"
+xml.file <- xmlTreeParse(xml.url)
+class(xml.file)
+```
+
+2.熟悉XML資料
+```{r, include=FALSE}
+#預計最後要產生41 x 22的dataframe 
+#row：1976 ~ 2016 (41 years in total)
+#column: 22 variables as above
+xmltop <- xmlRoot(xml.file)
+xmltop
+str(xmltop)
+xmlSize(xmltop)
+xmlSize(xmltop[[2]])
+```
+
+3.拆解XML資料
+```{r, include=FALSE}
+xml_NodeList <- xmlChildren(xmltop)
+class(xml_NodeList[1])
+class(xml_NodeList[[1]])
+xmlValue(xml_NodeList[[1]][[1]])
+xmlValue(xml_NodeList[[41]][[22]]) 
+
+
+data_matrix <- c()
+for(i in 1:41){
+  data_with_in_year <- xmlApply(xml_NodeList[[i]], xmlValue)
+  data_matrix <- rbind(data_matrix, data_with_in_year %>% unlist)
+}
+data_matrix
+class(data_matrix)
+```
+
+4.轉成dataframe並進行資料型態轉換
+```{r}
+library(dplyr)
+data_matrix %>% as.data.frame() -> data.final
+data.final$Year <- as.character(data.final$Year) 
+
+for(i in 2:22){
+  data.final[[i]] <- as.numeric(as.character(data.final[[i]]))
+}
+data.final
+```
+
+5.變數名稱轉換
+```{r}
+#共22個變數。
+#DI, disposable income
+#C, consumption
+#S, saving
+
+data.final -> data.final.English
+# colnames(data.final.English)[2:22] <- c(
+# "DI_in_hundred_million",    
+# "DI_in_household_on_average",
+# "DI_in_household_on_average_lowest_20%",
+# "DI_in_household_on_average_21%~40%", 
+# "DI_in_household_on_average_41~60%",
+# "DI_in_household_on_average_61~80%",
+# "DI_in_household_on_average_top_20%",
+# "C_in_hundred_million",
+# "C_in_household_on_average",
+# "C_in_household_on_average_lowest_20%",
+# "C_in_household_on_average_21%~40%",
+# "C_in_household_on_average_41~60%",
+# "C_in_household_on_average_61~80%",
+# "C_in_household_on_average_top_20%",
+# "S_in_hundred_million", 
+# "S_in_household_on_average",
+# "S_in_household_on_average_lowest_20%",
+# "S_in_household_on_average_21%~40%",
+# "S_in_household_on_average_41~60",
+# "S_in_household_on_average_61~80%",
+# "S_in_household_on_average_top_20%"
+# )
+colnames(data.final.English)[2:22] <- c(
+  "DI_household_sum",
+  "DI_household_average",
+  "DI_average_quintile1",
+  "DI_average_quintile2",
+  "DI_average_quintile3",
+  "DI_average_quintile4",
+  "DI_average_quintile5",
+  "C_in_hundred_million",
+  "C_in_household_on_average",
+  "C_average_quintile1",
+  "C_average_quintile2",
+  "C_average_quintile3",
+  "C_average_quintile4",
+  "C_average_quintile5",
+  "S_in_hundred_million",
+  "S_in_household_on_average",
+  "S_average_quintile1",
+  "S_average_quintile2",
+  "S_average_quintile3",
+  "S_average_quintile4",
+  "S_average_quintile5"
+)
+data.final.English
+
+write_csv(data.final,"Consumption_Ch.csv")
+write_csv(data.final.English,"Consumption_En.csv")
+```
+
+```
+變數原始名稱請參考：
+Year、
+可支配所得-億元、
+平均每戶可支配所得、
+可支配所得按戶數五等分位組-最低所得組、
+可支配所得按戶數五等分位組-次低所得組、
+可支配所得按戶數五等分位組-中間所得組、
+可支配所得按戶數五等分位組-次高所得組、
+可支配所得按戶數五等分位組-最高所得組、
+消費支出-億元、
+平均每戶消費支出、
+可支配所得按戶數五等分位組之平均每戶消費支出-最低所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-次低所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-中間所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-次高所得組、
+可支配所得按戶數五等分位組之平均每戶消費支出-最高所得組、
+儲蓄-億元、
+平均每戶儲蓄、
+可支配所得按戶數五等分位組之平均每戶儲蓄-最低所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-次低所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-中間所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-次高所得組、
+可支配所得按戶數五等分位組之平均每戶儲蓄-最高所得組
+```

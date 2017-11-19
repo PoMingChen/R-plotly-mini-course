@@ -1,0 +1,6 @@
+"0","data_matrix %>% as.data.frame() -> data.final"
+"0","data.final$Year <- as.character(data.final$Year) "
+"0","for(i in 2:22){"
+"0","  data.final[[i]] <- as.numeric(as.character(data.final[[i]]))"
+"0","}"
+"0","data.final"

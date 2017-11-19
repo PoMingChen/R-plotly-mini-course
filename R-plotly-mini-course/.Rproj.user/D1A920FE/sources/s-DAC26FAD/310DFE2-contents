@@ -1,0 +1,114 @@
+---
+title: "戶數十等分位組分界點之可支配所得(1976年起)"
+output: html_notebook
+---
+
+```
+資料集描述: 
+戶數十等分位組分界點之可支配所得(1976年起)
+
+主要欄位說明: 
+Year
+第一及第二等分位之分界點
+第二及第三等分位之分界點
+第三及第四等分位之分界點
+第四及第五等分位之分界點
+第五及第六等分位之分界點
+第六及第七等分位之分界點
+第七及第八等分位之分界點
+第八及第九等分位之分界點
+第九及第十等分位之分界點
+
+最後要變成一個41 x 10 的data.frame
+```
+
+```{r}
+rm(list=ls())
+```
+
+1.引入XML資料
+```{r}
+library(XML)
+library(xml2)
+library(dplyr)
+library(magrittr)
+
+
+xml.url <- "http://www.dgbas.gov.tw/public/data/open/localstat/014-戶數十等分位組分界點之可支配所得.xml"
+
+xml.file4 <- xmlTreeParse(xml.url)
+class(xml.file4)
+```
+
+2.認識XML資料
+```{r}
+xmltop4 <- xmlRoot(xml.file4)
+xmltop4
+str(xmltop4)
+xmlSize(xmltop4)
+xmlSize(xmltop4[[1]])
+xmlSize(xmltop4[[2]])
+
+xml_NodeList4 <- xmlChildren(xmltop4)
+class(xml_NodeList4)
+# XMLNodeList 也是List
+class(xml_NodeList4[1])
+class(xml_NodeList4[[1]])
+
+xmlValue(xml_NodeList4[[1]][[10]])
+
+xmlValue(xml_NodeList4[[41]][[10]]) 
+```
+
+3.拆解XML資料，整併成結構化data.frame
+```{r}
+data_matrix4 <- c()
+for(i in 1:41){
+  data_with_in_year <- xmlApply(xml_NodeList4[[i]], xmlValue)
+  data_matrix4 <- rbind(data_matrix4, data_with_in_year %>%
+   unlist)
+}
+data_matrix4
+```
+
+4.整理資料型態，以及更改變數名稱
+```{r}
+data_matrix4 %>% as.data.frame() -> data.final4
+for(i in 2:10){
+  data.final4[[i]] <- as.numeric(as.character(data.final4[[i]]))
+}
+
+data.final4 -> data.final.English4
+data.final.English4$Year <- as.character(data.final.English4$Year)
+
+#戶數 十等分位組 分界點之 可支配所得
+#我有點不知道十等分位要怎麼表達，我是參考四分位數的q1 q2 q3 的方式。
+
+colnames(data.final.English4)[2:10] <- c(
+"DI_in_household_Q1Q2_cut_off_point", 
+"DI_in_household_Q2Q3_cut_off_point",
+"DI_in_household_Q3Q4_cut_off_point",
+"DI_in_household_Q4Q5_cut_off_point",
+"DI_in_household_Q5Q6_cut_off_point",
+"DI_in_household_Q6Q7_cut_off_point",
+"DI_in_household_Q7Q8_cut_off_point",
+"DI_in_household_Q8Q9_cut_off_point",
+"DI_in_household_Q9Q10_cut_off_point"
+)
+data.final.English4
+```
+
+5.變數對照
+```
+#戶數 十等分位組 分界點之 可支配所得
+
+第一及第二等分位之分界點
+第二及第三等分位之分界點
+第三及第四等分位之分界點
+第四及第五等分位之分界點
+第五及第六等分位之分界點
+第六及第七等分位之分界點
+第七及第八等分位之分界點
+第八及第九等分位之分界點
+第九及第十等分位之分界點
+```

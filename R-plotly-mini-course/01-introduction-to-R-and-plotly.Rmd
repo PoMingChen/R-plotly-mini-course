@@ -1,0 +1,447 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(knitr)
+knitr::opts_chunk$set(warning=FALSE,message = FALSE,eval=FALSE)
+```
+# Outline
+
+*Basic Review on R environment
+*How to connect R with plotly platform
+*Data Visualization on plotly
+*It's Your turn!!
+*Give us some feedback
+
+#Basic Review on R environment
+```{r}
+#Please open another file Introduction-to-R-Environment
+```
+
+### Clear the environment {-}
+```{r}
+rm(list=ls())
+```
+
+### Import Data
+```{r}
+data.vis.1.sa<-read.csv("./_data/data.vis.1.sa.csv")
+```
+`./` represents the current working directory, normally where your .Rproj file is.  
+`./_data/` represents the subdirectory under './`. 
+
+#### Check the first few lines {-}
+```{r}
+#請觀察每一個變數的屬性（class)
+head(data.vis.1.sa)
+```
+
+#### Convert to Date class
+```{r}
+#資料型態也是相當重要的一環，但是今天不會討論到。
+#大致有分成numeric integer character logic (可以複習一下Hahow的單元)
+#事實上也有其他函數as.numeric as.character as.integer
+data.vis.1.sa$date <- as.Date(data.vis.1.sa$date)
+```
+
+```{r}
+#請觀察`date`變數的變化。由<fctr>轉為<date>
+head(data.vis.1.sa)
+```
+
+# How to connect R with plotly platform
+
+## Introduction to plotly
+```{r, eval=FALSE, message=FALSE, warning=FALSE}
+#安裝套件
+install.packages("plotly")
+```
+
+### Load plotly package
+```{r}
+#把套件召喚出來
+library(plotly)
+```
+
+### Initiate a plotly plot
+```{r, fig.cap = "Three versions of a basic scatterplot", screenshot.alt = "screenshots/scatterplots"}
+
+#add_lines(plot_ly(data.vis.1.sa, x=~date, y=~GDP), name="GDP")->p0
+#plotly
+data.vis.1.sa
+library(magrittr)
+data.vis.1.sa %>% plot_ly(x=~date) %>%
+  add_lines(y=~GDP,
+            name="GDP") -> p0
+p0
+```
+
+```{r}
+p0 %>% add_lines(y=~C,
+          name="Consumption") -> p0
+p0
+```
+
+```{r}
+#將Code Line 68~78合併一起寫
+data.vis.1.sa %>% plot_ly(x=~date) %>%
+  add_lines(y=~GDP,
+            name="GDP") %>%
+  add_lines(y=~C,
+            name="Consumption") -> p0
+p0
+```
+
+```{r}
+#將資料的所有變數一起寫完
+data.vis.1.sa %>% plot_ly(x=~date) %>%
+  add_lines(y=~GDP,
+            name="GDP") %>%
+  add_lines(y=~C,
+            name="Consumption") %>%
+  add_lines(y=~G,
+            name="Gov't Purchase") %>%
+  add_lines(y=~I,
+            name="Investment") %>%
+  add_lines(y=~Ex,
+            name="Export") %>%
+  add_lines(y=~Im,
+            name="Import")-> p0
+p0
+```
+
+## Upload to plotly and modify in Plot.ly platform
+
+Find your authentication API keys in your online settings and them in the function below.
+```
+Sys.setenv("plotly_username"="大家的plotly平台使用者名稱")
+Sys.setenv("plotly_api_key"="大家的API key的那一串英文與數字")
+```
+
+```{r, eval=FALSE}
+#請將Code 122 123放到程式碼區塊裡面
+api_create(p0,filename="taiwan real gdp SA",fileopt="overwrite")
+```
+
+# Data Visualization on plotly
+In Plot.ly, you can   
+- adjust your graph by clicking `edit`  
+- download graph code by clicking `view`
+
+### Basic data visualization rule
+Make sure you include the following components:  
+- Proper title  
+- meaningful subtitle
+- Data source 
+- Layout should follow the Z-rule
+
+### Plot.ly trick
+You can download your designed layout from plot.ly to use in your program.
+```
+p0 %>% layout(
+
+  Copy and paste the code chunck XXX from the part inside list()
+of layout<-list(XXX)
+
+)
+```
+
+```{r, echo=FALSE}
+p0 %>% layout(
+  annotations = list(
+    list(
+      x = "2017-01-01 08:00:00.13650", 
+      y = 4147012.08557, 
+      font = list(
+        color = "rgb(31, 119, 180)", 
+        size = 14
+      ), 
+      showarrow = FALSE, 
+      text = "GDP", 
+      xref = "x", 
+      yref = "y"
+    ), 
+    list(
+      x = "2017-01-01", 
+      y = 1900000, 
+      font = list(
+        color = "rgb(255, 127, 14)", 
+        size = 15
+      ), 
+      showarrow = FALSE, 
+      text = "Consumption", 
+      xref = "x", 
+      yref = "y"
+    ), 
+    list(
+      x = "2017-01-01 08:00:00.13560", 
+      y = 3205000, 
+      font = list(
+        color = "rgb(148, 103, 189)", 
+        size = 15
+      ), 
+      showarrow = FALSE, 
+      text = "Export", 
+      xref = "x", 
+      yref = "y"
+    ), 
+    list(
+      x = "2017-01-01 08:00:00.13610", 
+      y = 2510000, 
+      font = list(
+        color = "rgb(140, 86, 75)", 
+        size = 15
+      ), 
+      showarrow = FALSE, 
+      text = "Import", 
+      xref = "x", 
+      yref = "y"
+    ), 
+    list(
+      x = "2017-01-01", 
+      y = 1200000, 
+      font = list(
+        color = "rgb(214, 39, 40)", 
+        size = 15
+      ), 
+      showarrow = FALSE, 
+      text = "Investment", 
+      xref = "x", 
+      yref = "y"
+    ), 
+    list(
+      x = "2017-01-01 08:00:00.1353", 
+      y = 400000, 
+      font = list(
+        color = "rgb(44, 160, 44)", 
+        size = 15
+      ), 
+      showarrow = FALSE, 
+      text = "Gov Purchase", 
+      xref = "x", 
+      yref = "y"
+    ), 
+    list(
+      x = 0.5, 
+      y = 1.15, 
+      showarrow = FALSE, 
+      text = "Chained-dallor year = 2011, in NTD million, Seasonally Adjusted", 
+      xref = "paper", 
+      yref = "paper"
+    ), 
+    list(
+      x = 0, 
+      y = -0.20, 
+      showarrow = FALSE, 
+      text = "Source: <a href=\"data.gov.tw\">Taiwan Open Data</a>", 
+      xanchor = "left", 
+      xref = "paper", 
+      yref = "paper"
+    )
+  ), 
+  dragmode = "zoom", 
+  hovermode = "closest", 
+  margin = list(
+    r = 80, 
+    t = 55, 
+    b = 90, 
+    l = 60
+  ), 
+  showlegend = FALSE, 
+  title = "Taiwan Real GDP and its Components", 
+  xaxis = list(
+    autorange = TRUE, 
+    categoryarraysrc = "tpemartin:82:10f067", 
+    categoryorder = "array", 
+    domain = c(0, 1), 
+    nticks = 9, 
+    range = c("1982-01-01", "2018-11-22 15:10:14.3975"), 
+    showgrid = FALSE, 
+    showline = FALSE, 
+    showspikes = FALSE, 
+    tickmode = "auto", 
+    title = "<br>", 
+    type = "date", 
+    zerolinewidth = 1
+  ), 
+  yaxis = list(
+    autorange = TRUE, 
+    domain = c(0, 1), 
+    range = c(-59416.6666667, 4251896.66667), 
+    showgrid = TRUE, 
+    showspikes = FALSE, 
+    side = "right", 
+    title = "<br>", 
+    type = "linear"
+  )
+
+) -> p1
+
+p1
+```
+
+# It's Your turn!!
+```
+#說明：
+#資料來源：政府開放資料平台
+#家庭收支調查-各縣市別平均每戶所得收入總計（從1998~2016）
+#請挑選Taiwan / 你的故鄉 / 兩個你感興趣的縣市 進行實作
+#感受一下各縣市的落差和逐年的變化
+#然後說個30～100字的視覺化idea
+#提示：可以模仿上述的程式碼
+```
+```{r}
+library(plotly)
+data.vis.2 <- read.csv("./_data/Income_in_household_on_average_in_separate_years_in_different_County:City.csv")
+data.vis.2
+
+data.vis.2 %>% plot_ly(x=~Year, y=~Income_in_Household) %>% 
+  add_lines(y=~Taiwan, name="Taiwan") %>%
+  add_lines(y=~Taipei_City, name="Taipei_City") %>%
+  add_lines(y=~New_Taipei_City, name="New_Taipei_City") %>%
+  add_lines(y=~Chiayi.Cityㄆ, name="Chiayi_City") -> q0
+q0
+```
+
+```{r}
+Sys.setenv("plotly_username"="PoMingChen")
+Sys.setenv("plotly_api_key"="wjzSFQxNi0HnTTBfdpWn")
+api_create(q0,filename="Income in Household in County:City",fileopt="overwrite")
+```
+
+```{r}
+q0 %>% layout(
+  annotations = list(
+    list(
+      x = 0.5, 
+      y = 1.2, 
+      showarrow = FALSE, 
+      text = "單位：新台幣", 
+      xref = "paper", 
+      yref = "paper"
+    ), 
+    list(
+      x = -0.02, 
+      y = -0.2, 
+      showarrow = FALSE, 
+      text = "Source: 政府開放資料平台", 
+      xanchor = "left", 
+      xref = "paper", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1, 
+      y = 0.96, 
+      font = list(
+        color = "rgb(255, 127, 14)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "Taipei_City", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1.15, 
+      y = 0.53, 
+      font = list(
+        color = "rgb(44, 160, 44)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "New_Taipei_City", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1.01, 
+      y = 0.43, 
+      font = list(
+        color = "rgb(31, 119, 180)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "Taiwan", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1, 
+      y = 0.28, 
+      font = list(
+        color = "rgb(214, 39, 40)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "Chiayi_City", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    )
+  ), 
+  hovermode = "closest", 
+  legend = list(
+    x = 0.02, 
+    y = 0.5
+  ), 
+  margin = list(
+    r = 60, 
+    t = 75, 
+    b = 50, 
+    l = 50
+  ), 
+  showlegend = FALSE, 
+  title = "部分縣市平均每戶所得收入總計", 
+  titlefont = list(size = 20), 
+  xaxis = list(
+    autorange = TRUE, 
+    domain = c(0, 1), 
+    range = c(1998, 2016), 
+    showline = FALSE, 
+    showticklabels = TRUE, 
+    side = "bottom", 
+    title = "<br>", 
+    type = "linear"
+  ), 
+  yaxis = list(
+    autorange = TRUE, 
+    domain = c(0, 1), 
+    range = c(790763.277778, 1623537.72222), 
+    showticklabels = TRUE, 
+    side = "right", 
+    ticks = "", 
+    title = "<br>", 
+    type = "linear"
+  )
+) -> q1
+
+q1
+
+#結論：歡迎戰南北、城鄉差距、教育不平等blablabla...
+#那有竹科加持的新竹的？
+#離島呢？
+```
+
+#Give us some feedback
+```{r}
+#Please open the questionnaire and further materials file
+```
+
+
+```
+data.vis.2 %>% plot_ly(x=~Year, y=~Income_in_Household) %>% 
+  add_lines(y=~Taiwan/Taiwan, name="Taiwan") %>%
+  add_lines(y=~Taipei_City/Taiwan, name="Taipei_City") %>%
+  add_lines(y=~New_Taipei_City/Taiwan, name="New_Taipei_City") %>%
+  add_lines(y=~Chiayi.City/Taiwan, name="Chiayi_City") -> q0
+q0
+```
