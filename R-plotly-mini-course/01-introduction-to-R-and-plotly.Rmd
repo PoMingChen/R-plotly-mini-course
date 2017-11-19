@@ -436,12 +436,3 @@ q1
 #Please open the questionnaire and further materials file
 ```
 
-
-```
-data.vis.2 %>% plot_ly(x=~Year, y=~Income_in_Household) %>% 
-  add_lines(y=~Taiwan/Taiwan, name="Taiwan") %>%
-  add_lines(y=~Taipei_City/Taiwan, name="Taipei_City") %>%
-  add_lines(y=~New_Taipei_City/Taiwan, name="New_Taipei_City") %>%
-  add_lines(y=~Chiayi.City/Taiwan, name="Chiayi_City") -> q0
-q0
-```
