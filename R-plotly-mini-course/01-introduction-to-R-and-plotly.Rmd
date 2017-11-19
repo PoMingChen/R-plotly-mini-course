@@ -40,6 +40,9 @@ head(data.vis.1.sa)
 
 #### Convert to Date class
 ```{r}
+#資料型態也是相當重要的一環，但是今天不會討論到。
+#大致有分成numeric integer character logic (可以複習一下Hahow的單元)
+#事實上也有其他函數as.numeric as.character as.integer
 data.vis.1.sa$date <- as.Date(data.vis.1.sa$date)
 ```
 
@@ -57,7 +60,6 @@ install.packages("plotly")
 ```
 
 ### Load plotly package
-Need to do it everytime you want to use plotly.
 ```{r}
 #把套件召喚出來
 library(plotly)
@@ -66,8 +68,10 @@ library(plotly)
 ### Initiate a plotly plot
 ```{r, fig.cap = "Three versions of a basic scatterplot", screenshot.alt = "screenshots/scatterplots"}
 
+#add_lines(plot_ly(data.vis.1.sa, x=~date, y=~GDP), name="GDP")->p0
+#plotly
 data.vis.1.sa
-library(dplyr)
+library(magrittr)
 data.vis.1.sa %>% plot_ly(x=~date) %>%
   add_lines(y=~GDP,
             name="GDP") -> p0
@@ -110,8 +114,7 @@ p0
 
 ## Upload to plotly and modify in Plot.ly platform
 
-Find your authentication API keys in your online settings. 
-Save the following commands in your .Rprofile file (under your project directory) to be run every time you start R.
+Find your authentication API keys in your online settings and them in the function below.
 ```
 Sys.setenv("plotly_username"="大家的plotly平台使用者名稱")
 Sys.setenv("plotly_api_key"="大家的API key的那一串英文與數字")
@@ -132,7 +135,7 @@ Make sure you include the following components:
 - Proper title  
 - meaningful subtitle
 - Data source 
-- Layout should follow as Z-rule
+- Layout should follow the Z-rule
 
 ### Plot.ly trick
 You can download your designed layout from plot.ly to use in your program.
@@ -162,7 +165,7 @@ p0 %>% layout(
     ), 
     list(
       x = "2017-01-01", 
-      y = 2014401.37845, 
+      y = 1900000, 
       font = list(
         color = "rgb(255, 127, 14)", 
         size = 15
@@ -174,7 +177,7 @@ p0 %>% layout(
     ), 
     list(
       x = "2017-01-01 08:00:00.13560", 
-      y = 3203437.8329, 
+      y = 3205000, 
       font = list(
         color = "rgb(148, 103, 189)", 
         size = 15
@@ -186,7 +189,7 @@ p0 %>% layout(
     ), 
     list(
       x = "2017-01-01 08:00:00.13610", 
-      y = 2509189.21718, 
+      y = 2510000, 
       font = list(
         color = "rgb(140, 86, 75)", 
         size = 15
@@ -198,7 +201,7 @@ p0 %>% layout(
     ), 
     list(
       x = "2017-01-01", 
-      y = 1075946.98695, 
+      y = 1200000, 
       font = list(
         color = "rgb(214, 39, 40)", 
         size = 15
@@ -210,7 +213,7 @@ p0 %>% layout(
     ), 
     list(
       x = "2017-01-01 08:00:00.1353", 
-      y = 707720.937129, 
+      y = 400000, 
       font = list(
         color = "rgb(44, 160, 44)", 
         size = 15
@@ -222,7 +225,7 @@ p0 %>% layout(
     ), 
     list(
       x = 0.5, 
-      y = 1.03007518797, 
+      y = 1.15, 
       showarrow = FALSE, 
       text = "Chained-dallor year = 2011, in NTD million, Seasonally Adjusted", 
       xref = "paper", 
@@ -230,7 +233,7 @@ p0 %>% layout(
     ), 
     list(
       x = 0, 
-      y = -0.0892116182573, 
+      y = -0.20, 
       showarrow = FALSE, 
       text = "Source: <a href=\"data.gov.tw\">Taiwan Open Data</a>", 
       xanchor = "left", 
@@ -274,38 +277,158 @@ p0 %>% layout(
     type = "linear"
   )
 
-)
+) -> p1
+
+p1
 ```
 
 # It's Your turn!!
-```{r}
+```
 #說明：
 #資料來源：政府開放資料平台
 #家庭收支調查-各縣市別平均每戶所得收入總計（從1998~2016）
 #請挑選Taiwan / 你的故鄉 / 兩個你感興趣的縣市 進行實作
 #感受一下各縣市的落差和逐年的變化
-#然後說個50～100字的視覺化idea
+#然後說個30～100字的視覺化idea
 #提示：可以模仿上述的程式碼
-
+```
+```{r}
 library(plotly)
 data.vis.2 <- read.csv("./_data/Income_in_household_on_average_in_separate_years_in_different_County:City.csv")
 data.vis.2
 
 data.vis.2 %>% plot_ly(x=~Year, y=~Income_in_Household) %>% 
-  add_lines(y=~Taiwan/Taiwan, name="Taiwan") %>%
-  add_lines(y=~Taipei_City/Taiwan, name="Taipei_City") %>%
-  add_lines(y=~New_Taipei_City/Taiwan, name="New_Taipei_City") %>%
-  add_lines(y=~Chiayi.City/Taiwan, name="Chiayi.City") -> q0
+  add_lines(y=~Taiwan, name="Taiwan") %>%
+  add_lines(y=~Taipei_City, name="Taipei_City") %>%
+  add_lines(y=~New_Taipei_City, name="New_Taipei_City") %>%
+  add_lines(y=~Chiayi.Cityㄆ, name="Chiayi_City") -> q0
 q0
+```
 
+```{r}
 Sys.setenv("plotly_username"="PoMingChen")
 Sys.setenv("plotly_api_key"="wjzSFQxNi0HnTTBfdpWn")
 api_create(q0,filename="Income in Household in County:City",fileopt="overwrite")
+```
 
-#你就畫兩張一張ratio
-#到時候現場開分身show一下我自己的idea，我要用ratio
-#研究一下平台上（和電子書）有沒有最適合畫這種圖的
+```{r}
+q0 %>% layout(
+  annotations = list(
+    list(
+      x = 0.5, 
+      y = 1.2, 
+      showarrow = FALSE, 
+      text = "單位：新台幣", 
+      xref = "paper", 
+      yref = "paper"
+    ), 
+    list(
+      x = -0.02, 
+      y = -0.2, 
+      showarrow = FALSE, 
+      text = "Source: 政府開放資料平台", 
+      xanchor = "left", 
+      xref = "paper", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1, 
+      y = 0.96, 
+      font = list(
+        color = "rgb(255, 127, 14)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "Taipei_City", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1.15, 
+      y = 0.53, 
+      font = list(
+        color = "rgb(44, 160, 44)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "New_Taipei_City", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1.01, 
+      y = 0.43, 
+      font = list(
+        color = "rgb(31, 119, 180)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "Taiwan", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    ), 
+    list(
+      x = 1, 
+      y = 0.28, 
+      font = list(
+        color = "rgb(214, 39, 40)", 
+        size = 13
+      ), 
+      showarrow = FALSE, 
+      text = "Chiayi_City", 
+      xanchor = "middle", 
+      xref = "paper", 
+      yanchor = "bottom", 
+      yref = "paper"
+    )
+  ), 
+  hovermode = "closest", 
+  legend = list(
+    x = 0.02, 
+    y = 0.5
+  ), 
+  margin = list(
+    r = 60, 
+    t = 75, 
+    b = 50, 
+    l = 50
+  ), 
+  showlegend = FALSE, 
+  title = "部分縣市平均每戶所得收入總計", 
+  titlefont = list(size = 20), 
+  xaxis = list(
+    autorange = TRUE, 
+    domain = c(0, 1), 
+    range = c(1998, 2016), 
+    showline = FALSE, 
+    showticklabels = TRUE, 
+    side = "bottom", 
+    title = "<br>", 
+    type = "linear"
+  ), 
+  yaxis = list(
+    autorange = TRUE, 
+    domain = c(0, 1), 
+    range = c(790763.277778, 1623537.72222), 
+    showticklabels = TRUE, 
+    side = "right", 
+    ticks = "", 
+    title = "<br>", 
+    type = "linear"
+  )
+) -> q1
 
+q1
+
+#結論：歡迎戰南北、城鄉差距、教育不平等blablabla...
+#那有竹科加持的新竹的？
+#離島呢？
 ```
 
 #Give us some feedback
@@ -314,3 +437,11 @@ api_create(q0,filename="Income in Household in County:City",fileopt="overwrite")
 ```
 
 
+```
+data.vis.2 %>% plot_ly(x=~Year, y=~Income_in_Household) %>% 
+  add_lines(y=~Taiwan/Taiwan, name="Taiwan") %>%
+  add_lines(y=~Taipei_City/Taiwan, name="Taipei_City") %>%
+  add_lines(y=~New_Taipei_City/Taiwan, name="New_Taipei_City") %>%
+  add_lines(y=~Chiayi.City/Taiwan, name="Chiayi_City") -> q0
+q0
+```

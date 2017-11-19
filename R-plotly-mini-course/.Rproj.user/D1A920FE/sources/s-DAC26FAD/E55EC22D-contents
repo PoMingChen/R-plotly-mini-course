@@ -4,32 +4,71 @@ output: html_document
 output: 
 ---
 
-```{r}
+
 #R Rstudio 關係
-#介紹R物件 （如何存取）
-#何謂R的套件（如何安裝）
-#介紹如何選取變數 data.vis.1.sa$date $符號
-##介紹何謂 %>% 用法
-#install.packages("plotly") 或者 手動去點
-#何謂R的函數（用plotly函數簡單說明
-#何謂R的參數
+Rstudio 是R的 整合開發環境（Integrated Development Environment，簡稱IDE，也稱為Integration Design Environment、Integration Debugging Environment）是一種輔助程式開發人員開發軟體的應用軟體，在開發工具內部就可以輔助編寫原始碼文字、並編譯打包成為可用的程式，有些甚至可以設計圖形介面。 
 
+#介紹R物件 （如何存取，千萬不要講得那麼正規，我還不確定要放在哪邊比較好）
+R語言的物件（變數）就是名稱與值（內容）的對應關係。可以用<-來建立。後續的expression若有寫到變數，就會以變數的值帶入。
+建議只使用 英文 / 數字 / 點 / 底線即可。
 
-```
+變數的值可以是任意的R物件。
+將變數的值另為簡單的變數，可以方便理解，運算修改也變得容易。
 
 ```{r}
-#What's API
-#Application Programming Interface, 應用程式界面
-https://www.youtube.com/watch?v=zvKadd9Cflc
+#有點類似國高中令x <-多少（不要用＝），但是變數的內容可以是任何的R物件，包含數值、繪圖、結構化資料與非結構化資料等等
+x <- 2300
+x*2300/1200 
 ```
 
+#何謂R的套件（如何安裝）(我打算先從套件講到函數再到參數，最後是變數。然後舉一個經濟成長的套件的假想例子。)
+```{r}
+#R跟其他語言最大的不同就在於多采多姿的套件
+#如何下載套件
+#方法一、install.packages("plotly")
+#方法二、用點的
+#套件內具體而言會提供 資料、變數 /函數（動作，像是分析功能，繪圖功能） / S3、S4物件（配合函數使用）
+#載入套件library() 如果你要使用很多的套件內的函數，那載入較佳
+#如何查詢套件說明文件
+#在使用新套件的時候，最好先針對套件說明文件（像是User guide description file進行查詢，有一個全盤的了解)
+library(help="plotly")
+library(help="knitr")
 
+```
 
+#介紹R函數
+```{r}
+#在R裡面的每一個動作都是函數。R有許多方便的函數讓我們能夠做到複雜的事情。
+#函數的語法：小括號內包含的是函數的參數，函數是動作，參數則是動作執行的細節。
+#當看到這樣的語法，R就會自動去找哪一個套件內包含這個函數，然後依照你的參數設定來執行
+install.packages("plotly")
+args(utils::install.packages)
+#這個感覺跟f(x,y,z,.....是很像的) 其中pkgs是第一個參數、lib是第二個參數，通常越前面的參數是越重要的
+```
 
+#介紹R參數
+```{r}
+#我們來閱讀稍等會用到的plot_ly函數來說明如何操作這個函數。
+args(plotly::plot_ly)
+?plot_ly
+#標題 Initiate a plotly visualization
+#Description
+#Usage 會列出所有函數的參數
+#Arguments 會解釋各個參數的用途，如何下參數。慣例，第一段會說明這個參數的型態，像是他要一個dataframe。然後他想要街燒什麼樣的資訊。
+#不定參數，通常是將收集來的參數傳給特定的函數。但是還是要依照他的說明而定。
+#Details 是當我們要細膩調整參數設定才會用到（或者有時統計相關函數，他會寫他的數學式子）
+#Value 他會說明函數執行玩他會建立什麼樣的物件，像是繪圖、數值等等的
+#See also 會列出跟這個函數相關的函數或是功能相似的函數出來。
+#Examples 會給一些例子
+```
 
+#舉個例子吧：想像有一個經濟成長理論實證套件
 
+#What's API
+Application Programming Interface, 應用程式界面
+https://www.youtube.com/watch?v=zvKadd9Cflc
 
-#介紹pipe 是什麼？ 他會針對%>%的左邊的物件放到右邊函數執行的第一個參數，讓程式變得易讀好改，已經成為主流用法。
+#介紹pipe %>% 是什麼？ 
 
 >高科技機器貓 多拉A夢
 >戴上竹蜻蜓去找大雄
@@ -41,21 +80,12 @@ https://www.youtube.com/watch?v=zvKadd9Cflc
 完成第一個動作的多拉a夢 <- 找大雄(多拉a夢, 道具 = 竹蜻蜓)
 完成第二個動作的多拉a夢 <- 帶零錢(完成第一個動作的多拉a夢, 道具 = 存錢筒, 時間＝出發前)
 完成第三個動作的多拉a夢 <- 買銅鑼燒(完成第二個動作的多拉a夢, 地點 = 小攤)
-
+```
+```
 多拉a夢 %>%
   找大雄(道具 = 竹蜻蜓) %>%
   帶零錢(道具 = 存錢筒, 時間＝出發前) %>%
   買銅鑼燒(地點 = 小攤)
 ```
 
-```
-
-#小嘗試如何在這裡面加上其他參數
-data.vis.1.sa %>% plot_ly(x=~date) %>%
-  add_lines(y=~GDP,
-            name="GDP",
-            color = I("red"), 
-            alpha = 0.2 ) -> p0
-p0
-```
 
