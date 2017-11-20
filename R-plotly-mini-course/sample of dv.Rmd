@@ -3,6 +3,15 @@ title: "Sample of DV."
 output: html_document
 ---
 
+```
+#說明：
+#資料來源：政府開放資料平台
+#家庭收支調查-各縣市別平均每戶所得收入總計（從1998~2016）
+#請挑選Taiwan / 你的故鄉 / 兩個你感興趣的縣市 進行實作
+#感受一下各縣市的落差和逐年的變化
+#然後說個30～50字的視覺化idea
+#提示：可以模仿上述的程式碼
+```
 
 ```{r setup, include=FALSE}
 library(plotly)

@@ -29,7 +29,11 @@ data.vis.2 <- read.csv("./_data/Income_in_household_on_average_in_separate_years
 data.vis.2
 ```
 
+```{r}
+
+```
+
 ### Upload the file
 - Please make sure you had updated the frontmatter at the top of this file.
-- only this homework.Rmd is required.
 - [submit your works](https://www.dropbox.com/request/LpWz9naZyA0Enjb1dZlU)
+- only this homework.Rmd is required.

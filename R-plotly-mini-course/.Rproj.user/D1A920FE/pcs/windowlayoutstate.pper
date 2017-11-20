@@ -1,9 +1,9 @@
 {
     "left" : {
-        "panelheight" : 519,
-        "splitterpos" : 221,
-        "topwindowstate" : "MAXIMIZE",
-        "windowheight" : 557
+        "panelheight" : 448,
+        "splitterpos" : 190,
+        "topwindowstate" : "HIDE",
+        "windowheight" : 486
     },
     "right" : {
         "panelheight" : 448,
