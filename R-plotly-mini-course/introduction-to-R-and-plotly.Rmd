@@ -70,6 +70,7 @@ library(plotly)
 ```{r, fig.cap = "Three versions of a basic scatterplot", screenshot.alt = "screenshots/scatterplots"}
 
 data.vis.1.sa
+
 library(magrittr)
 data.vis.1.sa %>% plot_ly(x=~date) %>%
   add_lines(y=~GDP,
@@ -288,7 +289,7 @@ p1
 ```
 
 ### 4. It's Your turn!!
-- Open the homework.Rmd in this project
+- Please Open the homework.Rmd in this project
 
 
 ### 5. Give us some feedback
