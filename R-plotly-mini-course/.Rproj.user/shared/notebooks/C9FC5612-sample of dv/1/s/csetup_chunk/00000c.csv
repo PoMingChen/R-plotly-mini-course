@@ -1,8 +1,0 @@
-"0","library(plotly)"
-"0","data.vis.2 <- read.csv(""./_data/Income_in_household_on_average_in_separate_years_in_different_County:City.csv"")"
-"0","data.vis.2 %>% plot_ly(x=~Year, y=~Income_in_Household) %>% "
-"0","  add_lines(y=~Taiwan, name=""Taiwan"") %>%"
-"0","  add_lines(y=~Taipei_City, name=""Taipei_City"") %>%"
-"0","  add_lines(y=~New_Taipei_City, name=""New_Taipei_City"") %>%"
-"0","  add_lines(y=~Chiayi.City, name=""Chiayi_City"") -> q0"
-"0","q0"

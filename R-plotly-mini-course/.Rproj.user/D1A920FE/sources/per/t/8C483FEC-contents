@@ -1,8 +1,9 @@
 ---
 output:
+  pdf_document:
+    latex_engine : xelatex
   word_document: default
   html_document: default
-  pdf_document: default
 ---
 # R-plotly-mini-course
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
@@ -24,7 +25,7 @@ Outline
 
 ### 1. Basic Review on R environment
 
-- Please open another file Introduction-to-R-Environment
+- Please open another file Introduction-to-R-Environment.Rmd
 
 #### Clear the environment {-}
 ```{r}
@@ -42,28 +43,26 @@ data.vis.1.sa<-read.csv("./_data/data.vis.1.sa.csv")
 ```{r}
 head(data.vis.1.sa)
 ```
->請觀察每一個變數的屬性（class)
+look at the class of each variable
 
 #### 2.2 Convert to Date class
 ```{r}
-#資料型態也是相當重要的一環，但是今天不會討論到。
 data.vis.1.sa$date <- as.Date(data.vis.1.sa$date)
 ```
+Data type is an important issue in R, but it is not the main topic of this class.
 
 ```{r}
-#請觀察`date`變數的變化。由<fctr>轉為<date>
 head(data.vis.1.sa)
 ```
+look at the class of `class` variable
 
 #### 2.3 Introduction to plotly
 ```{r, eval=FALSE, message=FALSE, warning=FALSE}
-#安裝套件
 install.packages("plotly")
 ```
 
 ##### Load plotly package
 ```{r}
-#把套件召喚出來
 library(plotly)
 ```
 
@@ -76,9 +75,9 @@ data.vis.1.sa %>% plot_ly(x=~date) %>%
   add_lines(y=~GDP,
             name="GDP") -> p0
 p0
-
-#add_lines(plot_ly(data.vis.1.sa, x=~date, y=~GDP), name="GDP")->p0
 ```
+Without pipe, the code will be like : 
+add_lines(plot_ly(data.vis.1.sa, x=~date, y=~GDP), name="GDP")->p0
 
 ```{r}
 p0 %>% add_lines(y=~C,
@@ -96,7 +95,6 @@ p0
 ```
 
 ```{r}
-#將資料的所有變數一起寫完
 data.vis.1.sa %>% plot_ly(x=~date) %>%
   add_lines(y=~GDP,
             name="GDP") %>%
@@ -117,26 +115,29 @@ p0
 
 Find your authentication API keys in your online settings and them in the function below.
 ```
-Sys.setenv("plotly_username"="大家的plotly平台使用者名稱")
-Sys.setenv("plotly_api_key"="大家的API key的那一串英文與數字")
+Sys.setenv("plotly_username"="your username on plotly")
+Sys.setenv("plotly_api_key"="the API key string on plotly")
 ```
 
 ```{r, eval=FALSE}
-Sys.setenv("plotly_username"="大家的plotly平台使用者名稱")
-Sys.setenv("plotly_api_key"="大家的API key的那一串英文與數字")
+Sys.setenv("plotly_username"="your username on plotly")
+Sys.setenv("plotly_api_key"="the API key string on plotly")
 api_create(p0,filename="taiwan real gdp SA",fileopt="overwrite")
 ```
 
 ### 3. Data Visualization on plotly
 In Plot.ly, you can   
 - adjust your graph by clicking `Edit`  
-- download graph code by clicking `View`and choose `R`
+- download graph code by clicking `View` and choose `R`
 
 #### 3.1 Basic data visualization rule
 Make sure you include the following components:  
 - Proper title  
+
 - meaningful subtitle
+
 - Data source 
+
 - Layout should follow the Z-rule
 
 #### 3.2 Plot.ly trick
@@ -289,7 +290,6 @@ p1
 
 
 ### 5. Give us some feedback
-```{r}
-#Please open the questionnaire and further materials.Rmd file
-```
+- Please open the questionnaire and further materials.Rmd
+
 

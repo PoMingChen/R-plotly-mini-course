@@ -1,0 +1,24 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1511162044727.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4268586556",
+    "id" : "A14A4688",
+    "lastKnownWriteTime" : 1511162110,
+    "last_content_update" : 1511162110568,
+    "path" : "~/Documents/GitHub/R-plotly-mini-course/R-plotly-mini-course/sample of dv.Rmd",
+    "project_path" : "sample of dv.Rmd",
+    "properties" : {
+        "cursorPosition" : "4,0",
+        "last_setup_crc32" : "17AF96D3816eabe0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}
