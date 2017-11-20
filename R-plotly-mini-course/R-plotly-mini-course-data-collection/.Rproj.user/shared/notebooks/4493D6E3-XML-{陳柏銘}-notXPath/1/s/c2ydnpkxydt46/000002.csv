@@ -1,8 +1,0 @@
-"0","library(XML)
-library(xml2)
-library(dplyr)
-library(magrittr)
-xml.url <- \"http://www.dgbas.gov.tw/public/data/open/Cen/Mp04019.xml\"
-xmlfile <- xmlTreeParse(xml.url)
-xmlfile
-class(xmlfile)"

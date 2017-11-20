@@ -1,0 +1,35 @@
+---
+title: "R with Plotly platform"
+params:
+  name: "你的名字"
+  id: "你的學號"
+courseid: "DV-001"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+作者：`r params$name`  
+學號：`r params$id`
+
+### It's Your turn!!
+```
+說明：
+資料來源：政府開放資料平台
+家庭收支調查-各縣市別平均每戶所得收入總計（從1998~2016）
+請挑選Taiwan / 你的故鄉 / 兩個你感興趣的縣市 進行實作
+感受一下幾個縣市的落差和逐年的變化
+然後寫30～50字的視覺化感想
+提示：可以模仿上述的程式碼，修改變數
+```
+```{r}
+library(plotly)
+data.vis.2 <- read.csv("./_data/Income_in_household_on_average_in_separate_years_in_different_County:City.csv")
+data.vis.2
+```
+
+### Upload the file
+- Please make sure you had updated the frontmatter at the top of this file.
+- only this homework.Rmd is required.
+- [submit your works](https://www.dropbox.com/request/LpWz9naZyA0Enjb1dZlU)

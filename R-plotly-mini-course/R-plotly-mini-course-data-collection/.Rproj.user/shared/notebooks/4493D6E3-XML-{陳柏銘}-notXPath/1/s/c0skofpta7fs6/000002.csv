@@ -1,5 +1,0 @@
-"0","```r
-xmltop = xmlRoot(xmlfile)
-head(xmltop)
-class(xmltop)
-```"

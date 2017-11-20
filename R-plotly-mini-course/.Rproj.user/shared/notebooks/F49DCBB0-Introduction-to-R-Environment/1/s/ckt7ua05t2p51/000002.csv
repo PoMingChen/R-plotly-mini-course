@@ -1,0 +1,10 @@
+"0","#我們來閱讀稍等會用到的plot_ly函數，說明如何操作這個函數。
+?plot_ly
+"
+"2","Warning message:
+"
+"2","In format.POSIXlt(as.POSIXlt(x), ...) :"
+"2","
+ "
+"2"," unknown timezone 'default/Asia/Taipei'
+"
