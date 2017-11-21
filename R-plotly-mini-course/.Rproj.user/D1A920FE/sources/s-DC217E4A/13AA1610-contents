@@ -6,7 +6,7 @@ output: html_document
 ```{r}
 #questionnaire
 #Please feel free to give us some feedback
-[surveycake](https://www.surveycake.com/s/g1b32)
+[surveycake]
 ```
 
 ```{r}

@@ -21,14 +21,17 @@ x_3 <- 1
 x3 <- 2
 x.3 <- 3
 .variable <- 4
+# 多說一下物件的內容。
 
 # the relationship between packages, functions, arguments
 ![image](https://coggle-downloads.s3.amazonaws.com/57c2fe2bbfbc6ffa145bb96e200becb7c6b1fe67755af1e55eb4e3f1c5327b49/R_package.png)
+#這個圖，要重新呈現。（研究一下![image]，怎麼做，要不要另存。)
 
 #何謂R的套件(package)
 ```{r}
 #如何下載套件? 
 install.packages("plotly")
+library(plotly)
 #如何查詢套件說明文件?
 
 #請在package那邊輸入knitr
@@ -47,6 +50,7 @@ args(plotly::plot_ly)
 #我們來閱讀稍等會用到的plot_ly函數，說明如何操作這個函數。
 ?plot_ly
 args(plotly::plot_ly)
+plot_ly(color = 33:22:44, data = data.vis.1.sa)
 
 #標題 Initiate a plotly visualization
 #Description
@@ -55,6 +59,8 @@ args(plotly::plot_ly)
 #Details
 #See also 
 #Examples 
+
+plot_ly(economics, x = ~date, y = ~pop)
 ```
 
 #What is pipe %>% ?
@@ -69,12 +75,15 @@ args(plotly::plot_ly)
 完成第二個動作的多拉a夢 <- 帶零錢(完成第一個動作的多拉a夢, 道具 = 存錢筒, 時間＝出發前)
 完成第三個動作的多拉a夢 <- 買銅鑼燒(完成第二個動作的多拉a夢, 地點 = 小攤)
 ```
+
 ```
 多拉a夢 %>%
   找大雄(道具 = 竹蜻蜓) %>%
   帶零錢(道具 = 存錢筒, 時間＝出發前) %>%
   買銅鑼燒(地點 = 小攤)
 ```
+
+# 改一下故事的絕對線性。
 
 #What's API
 Application Programming Interface, 應用程式界面

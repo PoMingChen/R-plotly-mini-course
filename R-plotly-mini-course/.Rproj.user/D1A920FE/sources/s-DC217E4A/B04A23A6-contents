@@ -37,10 +37,12 @@ rm(list=ls())
 ```{r}
 data.vis.1.sa<-read.csv("./_data/data.vis.1.sa.csv")
 ```
+
 `./` represents the current working directory, normally where your .Rproj file is.  
 `./_data/` represents the subdirectory under './`. 
 
 ```{r}
+data.vis.1.sa
 head(data.vis.1.sa)
 ```
 look at the class of each variable
@@ -48,6 +50,7 @@ look at the class of each variable
 #### 2.2 Convert to Date class
 ```{r}
 data.vis.1.sa$date <- as.Date(data.vis.1.sa$date)
+data.vis.1.sa
 ```
 Data type is an important issue in R, but it is not the main topic of this class.
 
@@ -155,6 +158,12 @@ of layout<-list(XXX)
 ```
 
 ```{r, echo=FALSE}
+p0 %>% layout(
+  #將程式碼複製在這邊。
+)
+```
+
+```{r}
 p0 %>% layout(
   annotations = list(
     list(
@@ -287,6 +296,7 @@ p0 %>% layout(
 
 p1
 ```
+
 
 ### 4. It's Your turn!!
 - Please Open the homework.Rmd in this project

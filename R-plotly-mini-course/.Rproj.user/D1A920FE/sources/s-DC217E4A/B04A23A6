@@ -5,15 +5,15 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "683743041",
+    "hash" : "1523963070",
     "id" : "B04A23A6",
-    "lastKnownWriteTime" : 1511178070,
-    "last_content_update" : 1511178070793,
+    "lastKnownWriteTime" : 1511268700,
+    "last_content_update" : 1511268700160,
     "path" : "~/Documents/GitHub/R-plotly-mini-course/R-plotly-mini-course/introduction-to-R-and-plotly.Rmd",
     "project_path" : "introduction-to-R-and-plotly.Rmd",
     "properties" : {
-        "cursorPosition" : "298,0",
-        "scrollLine" : "286"
+        "cursorPosition" : "161,13",
+        "scrollLine" : "148"
     },
     "relative_order" : 1,
     "source_on_save" : false,
