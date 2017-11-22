@@ -22,9 +22,9 @@ knitr::opts_chunk$set(echo = TRUE)
 感受一下幾個縣市的落差和逐年的變化
 然後寫30～50字的視覺化感想
 提示：可以模仿上述的程式碼，修改變數
-提示：如果資料引入函數指令不順利，請點右上角Import Dataset
 ```
 ```{r}
+#若資料引入指令有出現問題，請用右上角的Import Dataset
 library(plotly)
 data.vis.2 <- read.csv("./_data/Income_in_household_on_average_in_separate_years_in_different_County:City.csv")
 data.vis.2
@@ -32,6 +32,7 @@ data.vis.2
 
 ```{r}
 #Let's begin !!
+#最後請將實作檔案依照最下方敘述上傳Dropbox
 ```
 
 ### Upload the file

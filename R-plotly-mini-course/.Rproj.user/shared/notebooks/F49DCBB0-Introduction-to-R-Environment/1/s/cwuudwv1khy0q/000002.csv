@@ -1,0 +1,12 @@
+"0","args(plotly::plot_ly)
+"
+"1","function (data = data.frame(), ..., type = NULL, color, colors = NULL, 
+"
+"1","    alpha = 1, symbol, symbols = NULL, size, sizes = c(10, 100), 
+"
+"1","    linetype, linetypes = NULL, split, frame, width = NULL, height = NULL, 
+"
+"1","    source = ""A"") 
+"
+"1","NULL
+"

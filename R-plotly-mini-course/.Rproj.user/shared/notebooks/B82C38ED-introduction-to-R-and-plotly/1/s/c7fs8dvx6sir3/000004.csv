@@ -1,0 +1,5 @@
+"0","library(magrittr)"
+"0","data.vis.1.sa %>% plot_ly(x=~date) %>%"
+"0","  add_lines(y=~GDP,"
+"0","            name=""GDP"") -> p0"
+"0","p0"
